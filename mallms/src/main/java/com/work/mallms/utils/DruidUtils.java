@@ -17,15 +17,17 @@ public class DruidUtils {
     //初始化数据库连接池
     static{
         try {
-            InputStream is = DruidUtils.class.getResourceAsStream("druid.properties");
+            //InputStream is = DruidUtils.class.getResourceAsStream("druid.properties");
             Properties properties = new Properties();
+
+            ClassLoader classLoader = DruidUtils.class.getClassLoader();
+            InputStream is = classLoader.getResourceAsStream("druid.properties");
+
             properties.load(is);
-            try {
-                druidDataSource = (DruidDataSource) DruidDataSourceFactory.createDataSource(properties);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            druidDataSource = (DruidDataSource) DruidDataSourceFactory.createDataSource(properties);
         } catch (IOException e) {
+            e.printStackTrace();
+        }catch (Exception e) {
             e.printStackTrace();
         }
     }
